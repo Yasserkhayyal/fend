@@ -21,41 +21,37 @@ const sections = document.querySelectorAll('section')
 const sectionsIds = Array(sections.length)
 const navItems =  Array(sections.length)
 
-/**
- * End Global Variables
- * Start Helper Functions
- * 
-*/
+for(let index=0;index<sections.length;index++){
+    navItems[index] = sections[index].getAttribute('data-nav')
+    sectionsIds[index] = sections[index].id
+}
 
-/**
- * 
- * @param {click event} event 
- * @param {selected anchor element to retrieve id to highlight the corresponding section} anchor 
- */
-function onAnchorClicked(event,anchor){
+const onAnchorClickedListener = function onItemClicked(event,anchor){
     const currentSelectedSectionElement = document.querySelector('.your-active-class')
+    console.log(currentSelectedSectionElement)
     if(currentSelectedSectionElement!=null){
         currentSelectedSectionElement.classList.remove('your-active-class')
     }
     const sectionId = anchor.href.split("#")[1]
+    console.log(sectionId)
     const selectedSectionElement = document.querySelector(`#${sectionId}`)
     selectedSectionElement.classList.add('your-active-class') 
 }
 
 /**
+ * End Global Variables
+ * Start Helper Functions
  * 
- * @param {anchors' texts array that will appear to user} navItems 
- * @param {ids array added to list items to be used later in intersectionObserver to highlight/unhighlight list items} sectionsIds 
- */
+*/
 function addItemsToNavMenu(navItems,sectionsIds){
     const documentFragment = document.createDocumentFragment()
     for(let index=0; index<navItems.length;index++){
         const navListItemElement = document.createElement('li')
-        navListItemElement.id = `${sectionsIds[index]}li`
         const navListItemAnchor = document.createElement('a')
+        console.log(`#${sectionsIds[index]}`)
         navListItemAnchor.href = `#${sectionsIds[index]}`
         navListItemAnchor.textContent = navItems[index]
-        navListItemAnchor.addEventListener('click',(event)=>onAnchorClicked(event,navListItemAnchor))
+        navListItemAnchor.addEventListener('click',(event)=>onAnchorClickedListener(event,navListItemAnchor))
         navListItemElement.appendChild(navListItemAnchor)
         documentFragment.appendChild(navListItemElement);
     }
@@ -63,18 +59,25 @@ function addItemsToNavMenu(navItems,sectionsIds){
     navbarUnorderListElement.appendChild(documentFragment)
 }
 
-const intersectionObserver = new IntersectionObserver(function(entries) {
+const observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry){
-        if(entry['isIntersecting'] === true && entry['intersectionRatio'] > 0.5){ 
-            document.querySelector(`li#${entry.target.id}li`).classList.add('selected_li')
-            const selectedSectionElement = document.querySelector(`#${entry.target.id}`)
-            selectedSectionElement.classList.add('your-active-class')
+        if(entry['isIntersecting'] === true && entry['intersectionRatio'] > 0.5){
+            console.log(`entry with id ${entry.target.id} is visible`)
         }else{
-            document.querySelector(`li#${entry.target.id}li`).classList.remove('selected_li')
-            const currentSelectedSectionElement = document.querySelector(`#${entry.target.id}`)
-            currentSelectedSectionElement.classList.remove('your-active-class')
+            console.log(`entry with id ${entry.target.id} is hidding`)
         }
     })
+	// if(entries[0]['isIntersecting'] === true) {
+	// 	if(entries[0]['intersectionRatio'] === 1)
+	// 		console.log('Target is fully visible in the screen');
+	// 	else if(entries[0]['intersectionRatio'] > 0.5)
+	// 		console.log('More than 50% of target is visible in the screen');
+	// 	else 
+	// 		console.log('Less than 50% of target is visible in the screen');
+	// }
+	// else {
+	// 	console.log('Target is not visible in the screen');
+    // }
 }, { threshold: [0.5] });
 
 
@@ -85,13 +88,10 @@ const intersectionObserver = new IntersectionObserver(function(entries) {
 */
 
 // build the nav
-for(let index=0;index<sections.length;index++){//dynamic population of navItems and sectionsIds arrays
-    navItems[index] = sections[index].getAttribute('data-nav')
-    sectionsIds[index] = sections[index].id
-}
 addItemsToNavMenu(navItems,sectionsIds)
 sections.forEach(function(section){
-    intersectionObserver.observe(section)
+    console.log(section) 
+    observer.observe(section)
 })
 
 // Add class 'active' to section when near top of viewport

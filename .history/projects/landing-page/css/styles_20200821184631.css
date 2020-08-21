@@ -76,17 +76,13 @@ section {
 
 .navbar__menu li {
     width: 15%;
-    line-height: 2em;
     text-align: center;
     display: inline-block;
 }
 
 .selected_li{
-    background: blue
-}
-
-.selected_li a{
     color: #fff;
+    background: blue
 }
 
 .navbar__menu .menu__link {

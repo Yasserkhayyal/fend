@@ -67,6 +67,7 @@ section {
 .navbar__menu ul {
     display: flex;
     flex-flow: row wrap;
+    justify-content: space-evenly;
     padding-left: 0;
     margin: 0;
     text-align: right;
@@ -75,18 +76,12 @@ section {
 }
 
 .navbar__menu li {
-    width: 15%;
-    line-height: 2em;
-    text-align: center;
     display: inline-block;
 }
 
 .selected_li{
-    background: blue
-}
-
-.selected_li a{
     color: #fff;
+    background: blue
 }
 
 .navbar__menu .menu__link {

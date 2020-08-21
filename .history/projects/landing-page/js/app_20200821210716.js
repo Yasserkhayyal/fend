@@ -26,12 +26,6 @@ const navItems =  Array(sections.length)
  * Start Helper Functions
  * 
 */
-
-/**
- * 
- * @param {click event} event 
- * @param {selected anchor element to retrieve id to highlight the corresponding section} anchor 
- */
 function onAnchorClicked(event,anchor){
     const currentSelectedSectionElement = document.querySelector('.your-active-class')
     if(currentSelectedSectionElement!=null){
@@ -40,13 +34,9 @@ function onAnchorClicked(event,anchor){
     const sectionId = anchor.href.split("#")[1]
     const selectedSectionElement = document.querySelector(`#${sectionId}`)
     selectedSectionElement.classList.add('your-active-class') 
+    console.log(`add your-active-class to ${selectedSectionElement.id}`)
 }
 
-/**
- * 
- * @param {anchors' texts array that will appear to user} navItems 
- * @param {ids array added to list items to be used later in intersectionObserver to highlight/unhighlight list items} sectionsIds 
- */
 function addItemsToNavMenu(navItems,sectionsIds){
     const documentFragment = document.createDocumentFragment()
     for(let index=0; index<navItems.length;index++){
@@ -63,7 +53,7 @@ function addItemsToNavMenu(navItems,sectionsIds){
     navbarUnorderListElement.appendChild(documentFragment)
 }
 
-const intersectionObserver = new IntersectionObserver(function(entries) {
+const observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry){
         if(entry['isIntersecting'] === true && entry['intersectionRatio'] > 0.5){ 
             document.querySelector(`li#${entry.target.id}li`).classList.add('selected_li')
@@ -91,7 +81,7 @@ for(let index=0;index<sections.length;index++){//dynamic population of navItems 
 }
 addItemsToNavMenu(navItems,sectionsIds)
 sections.forEach(function(section){
-    intersectionObserver.observe(section)
+    observer.observe(section)
 })
 
 // Add class 'active' to section when near top of viewport

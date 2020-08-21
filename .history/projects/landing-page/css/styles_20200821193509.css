@@ -82,11 +82,8 @@ section {
 }
 
 .selected_li{
-    background: blue
-}
-
-.selected_li a{
     color: #fff;
+    background: blue
 }
 
 .navbar__menu .menu__link {

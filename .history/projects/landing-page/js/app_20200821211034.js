@@ -26,12 +26,6 @@ const navItems =  Array(sections.length)
  * Start Helper Functions
  * 
 */
-
-/**
- * 
- * @param {click event} event 
- * @param {selected anchor element to retrieve id to highlight the corresponding section} anchor 
- */
 function onAnchorClicked(event,anchor){
     const currentSelectedSectionElement = document.querySelector('.your-active-class')
     if(currentSelectedSectionElement!=null){
@@ -40,6 +34,7 @@ function onAnchorClicked(event,anchor){
     const sectionId = anchor.href.split("#")[1]
     const selectedSectionElement = document.querySelector(`#${sectionId}`)
     selectedSectionElement.classList.add('your-active-class') 
+    console.log(`add your-active-class to ${selectedSectionElement.id}`)
 }
 
 /**
