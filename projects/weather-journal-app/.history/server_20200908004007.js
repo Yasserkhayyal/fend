@@ -27,11 +27,11 @@ function listening(){
     console.log(`on localhost ${port}`);
 }
 
-app.post("/all",function(req,res){
+app.post("/",function(req,res){
     projectData.all = req.body;
     res.send(req.body);
 })
 
-app.get("/all",function(req,res){
-    res.send(projectData.all);
+app.get("/",function(req,res){
+    res.send(projectData.apiResponse);
 })

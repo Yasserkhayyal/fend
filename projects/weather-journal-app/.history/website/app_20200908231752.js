@@ -13,8 +13,6 @@ function callApi(){
   const feelings = document.getElementById('feelings').value
   let d = new Date();
   let newDate = d.getMonth()+1+'.'+ d.getDate()+'.'+ d.getFullYear();//adding one to month as its zero-based
-  //get data from web API then post it with other data from input fields to '/all' route
-  //then get that data and update UI
   getDataFromApi(baseUrl,zip).then(function(data){
     // Create a new date instance dynamically with JS
     postData('/all',{apiResponse:data,feelingsKey:feelings,dateKey:newDate}).then(function(data){

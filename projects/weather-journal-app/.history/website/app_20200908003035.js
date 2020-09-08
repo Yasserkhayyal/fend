@@ -8,18 +8,11 @@ document.getElementById('generate').addEventListener('click',callApi);
 
 /* Function called by event listener */
 function callApi(){
-  //get data from input fields
   const zip = document.getElementById('zip').value
   const feelings = document.getElementById('feelings').value
-  let d = new Date();
-  let newDate = d.getMonth()+1+'.'+ d.getDate()+'.'+ d.getFullYear();//adding one to month as its zero-based
-  //get data from web API then post it with other data from input fields to '/all' route
-  //then get that data and update UI
+  postData("/",{zip: zip})
   getDataFromApi(baseUrl,zip).then(function(data){
-    // Create a new date instance dynamically with JS
-    postData('/all',{apiResponse:data,feelingsKey:feelings,dateKey:newDate}).then(function(data){
-      updateUI(data);
-    })
+      updateUI(data)
   })
 }
 
@@ -28,6 +21,7 @@ const getDataFromApi = async (url = '', zip)=>{
   const response = await fetch(url+zip+apiKey);
   try {
       const newData = await response.json();
+      console.log(newData);
       return newData;
   }catch(error) {
       console.log("error", error);
@@ -53,15 +47,13 @@ const postData = async ( url = '', data = {})=>{
       console.log("error", error);
     }
   }
+  
+
+// Create a new date instance dynamically with JS
+let d = new Date();
+let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
 
 
 function updateUI(data){
-  console.log(data);
-  if(data.apiResponse.cod === 200){
-    document.getElementById('date').innerHTML = data.dateKey;
-    document.getElementById('temp').innerHTML = data.apiResponse.main.temp;
-    document.getElementById('content').innerHTML = data.feelingsKey;
-  }else{
-    document.getElementById('content').innerHTML = data.apiResponse.message;
-  }
+    console.log(data);
 }

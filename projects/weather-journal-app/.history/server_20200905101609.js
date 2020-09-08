@@ -1,6 +1,9 @@
-const fetch = require('node-fetch');
 // Setup empty JS object to act as endpoint for all routes
-const projectData = {};
+projectData = {};
+
+//API integration data 
+const apiKey = '&appid=ca32e1f19ff1b845ad9df6bb8e1ba8a6';
+const baseUrl = 'api.openweathermap.org/data/2.5/weather?zip=';
 
 // Require Express to run server and routes
 const express = require('express');
@@ -15,6 +18,7 @@ app.use(bodyParser.json());
 
 // Cors for cross origin allowance
 const cors = require('cors');
+const { response } = require('express');
 app.use(cors());
 // Initialize the main project folder
 app.use(express.static('website'));
@@ -27,11 +31,23 @@ function listening(){
     console.log(`on localhost ${port}`);
 }
 
-app.post("/all",function(req,res){
-    projectData.all = req.body;
-    res.send(req.body);
+const getDataFromApi = async (url = '', zip)=>{
+    const response = await fetch(url+zip);
+    try {
+        const newData = await response.json();
+        console.log(newData);
+        return newData;
+    }catch(error) {
+        console.log("error", error);
+    }
+}
+
+app.post("/",function(req,res){
+    projectData.zip = req.body;
+    console.log('zip',req.body);
+    projectData.apiResponse = getDataFromApi(baseUrl,projectData.zip);
 })
 
-app.get("/all",function(req,res){
-    res.send(projectData.all);
+app.get("/",function(req,res){
+    res.send(projectData.apiResponse);
 })

@@ -29,6 +29,7 @@ body{
     display:flexbox;
     flex-flow: column wrap;
     align-items: stretch;
+    margin-left: 500px;
 }
 
 #date{

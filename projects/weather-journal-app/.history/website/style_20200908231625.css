@@ -21,6 +21,7 @@ body{
 }
 
 .entry{
+    padding-left:10%;
     background: rgba(59, 74, 107, .4);
 }
 

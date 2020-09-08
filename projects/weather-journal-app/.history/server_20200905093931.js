@@ -1,6 +1,26 @@
-const fetch = require('node-fetch');
 // Setup empty JS object to act as endpoint for all routes
-const projectData = {};
+projectData = {};
+
+//API integration data 
+const apiKey = 'ca32e1f19ff1b845ad9df6bb8e1ba8a6';
+
+const getDataFromApi = async ( url = '', data = {})=>{
+    console.log(data);
+    const response = await fetch(url, {
+    method: 'GET', 
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  });
+  
+  try {
+    const newData = await response.json();
+    console.log(newData);
+  }catch(error) {
+    console.log("error", error);
+  }
+}
 
 // Require Express to run server and routes
 const express = require('express');
@@ -20,18 +40,9 @@ app.use(cors());
 app.use(express.static('website'));
 // Setup Server
 const port = 8000;
-app.listen(port,listening);
+app.listen(port,listening)
 
 function listening(){
     console.log('server is running');
     console.log(`on localhost ${port}`);
 }
-
-app.post("/all",function(req,res){
-    projectData.all = req.body;
-    res.send(req.body);
-})
-
-app.get("/all",function(req,res){
-    res.send(projectData.all);
-})

@@ -4,22 +4,19 @@ const apiKey = '&appid=ca32e1f19ff1b845ad9df6bb8e1ba8a6';
 const baseUrl = 'http://api.openweathermap.org/data/2.5/weather?zip=';
 
 // Event listener to add function to the button with id 'generate'
-document.getElementById('generate').addEventListener('click',callApi);
+const generateButton = document.getElementById('generate');
+generateButton.addEventListener('click',callApi);
 
 /* Function called by event listener */
 function callApi(){
-  //get data from input fields
   const zip = document.getElementById('zip').value
   const feelings = document.getElementById('feelings').value
-  let d = new Date();
-  let newDate = d.getMonth()+1+'.'+ d.getDate()+'.'+ d.getFullYear();//adding one to month as its zero-based
-  //get data from web API then post it with other data from input fields to '/all' route
-  //then get that data and update UI
-  getDataFromApi(baseUrl,zip).then(function(data){
-    // Create a new date instance dynamically with JS
-    postData('/all',{apiResponse:data,feelingsKey:feelings,dateKey:newDate}).then(function(data){
-      updateUI(data);
-    })
+  postData("/",{zip: zip}).then(function(){
+      getDataFromApi(baseUrl,projectData.zip).then(function(data){
+          updateUI(data)
+      })
+  }).catch(function(error){
+      console.log("error",error);
   })
 }
 
@@ -28,6 +25,7 @@ const getDataFromApi = async (url = '', zip)=>{
   const response = await fetch(url+zip+apiKey);
   try {
       const newData = await response.json();
+      console.log(newData);
       return newData;
   }catch(error) {
       console.log("error", error);
@@ -36,6 +34,7 @@ const getDataFromApi = async (url = '', zip)=>{
 
 /* Function to POST data */
 const postData = async ( url = '', data = {})=>{
+    console.log(data);
     const response = await fetch(url, {
     method: 'POST', 
     credentials: 'same-origin',
@@ -48,20 +47,19 @@ const postData = async ( url = '', data = {})=>{
   
   try {
       const newData = await response.json();
+      console.log(newData);
       return newData;
     }catch(error) {
       console.log("error", error);
     }
   }
+  
+
+// Create a new date instance dynamically with JS
+let d = new Date();
+let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
 
 
 function updateUI(data){
-  console.log(data);
-  if(data.apiResponse.cod === 200){
-    document.getElementById('date').innerHTML = data.dateKey;
-    document.getElementById('temp').innerHTML = data.apiResponse.main.temp;
-    document.getElementById('content').innerHTML = data.feelingsKey;
-  }else{
-    document.getElementById('content').innerHTML = data.apiResponse.message;
-  }
+    console.log(data);
 }

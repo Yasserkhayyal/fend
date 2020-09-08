@@ -33,5 +33,5 @@ app.post("/all",function(req,res){
 })
 
 app.get("/all",function(req,res){
-    res.send(projectData.all);
+    res.send(projectData);
 })

@@ -28,7 +28,6 @@ body{
     background-color: salmon;
     display:flexbox;
     flex-flow: column wrap;
-    align-items: stretch;
 }
 
 #date{
