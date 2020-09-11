@@ -27,9 +27,9 @@ function listening(){
     console.log(`on localhost ${port}`);
 }
 
-app.post("/all",function(req,res){
+app.post("/add",function(req,res){
     projectData.all = req.body;
-    res.send(req.body);
+    res.send({message: 'data posted successfully!'});
 })
 
 app.get("/all",function(req,res){

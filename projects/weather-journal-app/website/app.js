@@ -17,8 +17,11 @@ function callApi(){
   //then get that data and update UI
   getDataFromApi(baseUrl,zip).then(function(data){
     // Create a new date instance dynamically with JS
-    postData('/all',{apiResponse:data,feelingsKey:feelings,dateKey:newDate}).then(function(data){
-      updateUI(data);
+    postData('/add',{apiResponse:data,feelingsKey:feelings,dateKey:newDate}).then(function(message){
+      console.log(message);
+      getDataFromServer('/all').then(function(data){
+        updateUI(data);
+      })
     })
   })
 }
@@ -33,6 +36,18 @@ const getDataFromApi = async (url = '', zip)=>{
       console.log("error", error);
   }
 }
+
+/*Function to get Data posted to Server*/
+const getDataFromServer = async (url = '')=>{
+  const response = await fetch(url);
+  try {
+      const newData = await response.json();
+      return newData;
+  }catch(error) {
+      console.log("error", error);
+  }
+}
+
 
 /* Function to POST data */
 const postData = async ( url = '', data = {})=>{
