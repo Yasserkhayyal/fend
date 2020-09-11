@@ -1,6 +1,6 @@
 /* Global Variables */
 // Personal API Key for OpenWeatherMap API
-const apiKey = '&appid=ca32e1f19ff1b845ad9df6bb8e1ba8a6';
+const apiKey = '&appid=ca32e1f19ff1b845ad9df6bb8e1ba8a6&units=Imperial';
 const baseUrl = 'http://api.openweathermap.org/data/2.5/weather?zip=';
 
 // Event listener to add function to the button with id 'generate'
